@@ -1,0 +1,11 @@
+{
+	"name": "Nano Tab Hack",
+	"description": "Track Tabs",
+	"version": "1.0",
+
+	"manifest_version": 2,
+
+	"browser_action":{
+		
+	}
+}
