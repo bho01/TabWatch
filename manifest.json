@@ -15,8 +15,12 @@
           "background",
           "browsingData",
           "topSites"
+<<<<<<< HEAD
           ],
   "background": {
     "scripts": ["popup.js"]
   }
+=======
+        ]
+>>>>>>> a85781a09a8454667bfcc25767bb0a9c32d7b6b2
 }
