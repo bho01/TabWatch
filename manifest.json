@@ -1,0 +1,22 @@
+{
+	"name": "Nano Tab Hack",
+	"description": "Track Tabs",
+	"version": "1.0",
+
+	"manifest_version": 2,
+
+	"browser_action": {
+    "default_icon": "download.jpeg",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+          "tabs",
+          "activeTab",
+          "background",
+          "browsingData",
+          "topSites"
+          ],
+  "background": {
+    "scripts": ["popup.js"]
+  }
+}
