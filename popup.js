@@ -19,8 +19,27 @@ var port = chrome.extension.connect({
 
       var ctx = document.getElementById("chart")
       var pieChart = new Chart(ctx, {
-      	type:'pie',
+      	type:'doughnut',
       	data : data,
+      	data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: ['rgb(244, 67, 54)', 'rgb(156, 39, 176)', 'rgb(33, 150, 243)', 'rgb(76, 175, 80)', 'rgb(255, 235, 59)', 'rgb(255, 152, 0)', 'rgb(255, 87, 34)'],
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    },
       	options : null
       })
+       var dialog = document.querySelector('dialog');
+    var showModalButton = document.querySelector('.show-modal');
+    if (! dialog.showModal) {
+      dialogPolyfill.registerDialog(dialog);
+    }
+    showModalButton.addEventListener('click', function() {
+      dialog.showModal();
+    });
+    dialog.querySelector('.close').addEventListener('click', function() {
+      dialog.close();
+    });
  });
