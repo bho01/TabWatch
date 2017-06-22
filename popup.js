@@ -5,13 +5,16 @@ var global = {};
 
 //initialization
 var lastDate = Date.now();
-var lastTab = null;
+var currentTab = null;
 
-chrome.tabs.query({}, function(tabs){
-	background.console.log("yo")
-	background.console.log(lastDate);
-	background.console.log(tabs)
-});
+function activeTab(){
+	chrome.tabs.query({active:true}, function(tabs){
+		return tabs;
+	});	
+}
+
+currentTab = activeTab;
+
 chrome.tabs.onCreated.addListener(function(tab){
 	console.log(tab);
 });
@@ -19,10 +22,10 @@ chrome.tabs.onCreated.addListener(function(tab){
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
 		background.console.log(tab);
-		lastTab = tab;
 		var timeSpent = findOffset();
-		logTime(timeSpent, lastTab);
-		background.console.log(lastTab);
+		logTime(timeSpent, currentTab);
+		background.console.log(currentTab);
+		currentTab = tab;
 	});
 });
 /*
@@ -79,6 +82,7 @@ function totalTime(sinceDate){
 	}
 	var sum = timeArr.reduce((a,b) => a + b, 0);
 	console.log(convertToTime(sum));
+	calculatePercentages();
 }
 function calculatePercentages(sinceDate){
 	var relativeList = {};
@@ -93,6 +97,7 @@ function calculatePercentages(sinceDate){
 			relativeList[key] = sum
 		}
 	}
+	console.log(relativeList);
 
 }
 /*
