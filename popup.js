@@ -3,7 +3,6 @@ const background = chrome.extension.getBackgroundPage();
 var global = {};
 var lastDate = Date.now();
 var lastTab = null;
-var timeArr = [];
 
 chrome.tabs.query({}, function(tabs){
 	background.console.log("yo")
@@ -17,39 +16,25 @@ chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
 		background.console.log(tab);
 		lastTab = tab;
-		var milliseconds = findMillis();
 		var timeSpent = findOffset();
-		logTime(timeSpent, lastTab, milliseconds);
+		logTime(timeSpent, lastTab);
 		background.console.log(lastTab);
-		background.console.log(milliseconds);
-		timeArr.push(milliseconds);
-		background.console.log(timeArr);
-		var sum = timeArr.reduce((a,b) => a + b, 0);
-	console.log(sum);
-	var wow = convertToTime(sum);
-	console.log(wow)
 	});
 });
 
-function logTime(timeSpent,tab, mills){
+function logTime(timeSpent,tab){
 	var s = new Session(timeSpent[0],timeSpent[1]);
-	var ms = new millisSession(mills[0]);
 	if(global[tab.title] == null){
 		var array = [];
-		var millisArray = [];
-		millisArray.push(ms);
 		array.push(s);
-		global[tab.title] = millisArray
 		global[tab.title] = array
 	}else{
 		var array = global[tab.title];
-		var millisArray = global[tab.title];
 		array.push(s);
-		millisArray.push(ms);
-		global[tab.title] = millisArray
 		global[tab.title] = array
 	}
 	console.log(global);
+	totalTime();
 }
 function convertToTime(milli){
 	var milliseconds = parseInt((milli%1000)/100)
@@ -63,10 +48,7 @@ function convertToTime(milli){
 
         return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
-function findMillis(){
-	var offset = Date.now()-lastDate;
-	return offset;
-}
+
 function findOffset(){
 	var beginning = lastDate;
 	var offset = Date.now() - lastDate;
@@ -75,8 +57,17 @@ function findOffset(){
 	return [offset, beginning];
 }
 function totalTime(){
+	timeArr = [];
+	for (var key in global) {
+    	if (global.hasOwnProperty(key)){
+    		var ses = global[key]
+    		for(a in ses){
+    			timeArr.push(ses[a].time);
+    		}
+    	}
+	}
 	var sum = timeArr.reduce((a,b) => a + b, 0);
-	console.log(sum);
+	console.log(convertToTime(sum));
 }
 class Session {
 	constructor(time, date){
@@ -84,14 +75,3 @@ class Session {
 		this.date = date
 	}
 }
-
-class millisSession{
-	constructor(time){
-		this.time = time
-	}
-}
-
-	/*	timeArr.push(timeSpent);
-		background.console.log(timeArr);
-		var sum = timeArr.reduce((a,b) => a + b, 0);
-	console.log(sum);*/
