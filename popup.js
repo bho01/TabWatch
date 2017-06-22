@@ -65,13 +65,14 @@ function findOffset(){
 	return [offset, beginning];
 }
 //O(n^2), iterate through keys and sum session times
-function totalTime(){
+function totalTime(sinceDate){
 	timeArr = [];
 	for (var key in global) {
     	if (global.hasOwnProperty(key)){
     		var ses = global[key]
     		//an array of Sessions
     		for(a in ses){
+    			//TODO : Check if ses[a].time fits the time constraint parameter
     			timeArr.push(ses[a].time);
     		}
     	}
@@ -84,6 +85,12 @@ function calculatePercentages(sinceDate){
 	for(var key in global){
 		if(global.hasOwnProperty(key)){
 			var ses = global[key]
+			var sum = 0.0
+			for(a in ses){
+				//TODO : Check if ses[a].time fits the time constraint parameter
+				sum += ses[a].time;
+			}
+			relativeList[key] = sum
 		}
 	}
 
