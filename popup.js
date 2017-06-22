@@ -9,11 +9,12 @@ var currentTab = null;
 
 function activeTab(){
 	chrome.tabs.query({active:true}, function(tabs){
-		return tabs;
+		currentTab = tabs[0];
+		return tabs[0];
 	});	
 }
 
-currentTab = activeTab;
+activeTab();
 
 chrome.tabs.onCreated.addListener(function(tab){
 	console.log(tab);
@@ -21,10 +22,8 @@ chrome.tabs.onCreated.addListener(function(tab){
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
-		background.console.log(tab);
 		var timeSpent = findOffset();
 		logTime(timeSpent, currentTab);
-		background.console.log(currentTab);
 		currentTab = tab;
 	});
 });
@@ -43,7 +42,6 @@ function logTime(timeSpent,tab){
 		array.push(s);
 		global[tab.title] = array
 	}
-	console.log(global);
 	totalTime();
 }
 function convertToTime(milli){
