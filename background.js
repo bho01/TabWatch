@@ -6,7 +6,6 @@ var global = {};
 //initialization
 var lastDate = Date.now();
 var currentTab = null;
-
 function activeTab(){
 	chrome.tabs.query({active:true}, function(tabs){
 		currentTab = tabs[0];
@@ -19,8 +18,10 @@ activeTab();
 chrome.extension.onConnect.addListener(function(port) {
       console.log("Connected .....");
       port.onMessage.addListener(function(msg) {
-           console.log("message recieved" + msg);
-           port.postMessage("Hi Popup.js");
+           console.log("message recieved : " + msg);
+           var b = calculatePercentages()
+           console.log(b)
+           port.postMessage(b);
       });
  })
 
@@ -107,6 +108,7 @@ function calculatePercentages(sinceDate){
 		}
 	}
 	console.log(relativeList);
+	return relativeList;
 
 }
 /*

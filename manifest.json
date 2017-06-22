@@ -18,5 +18,9 @@
           ],
   "background": {
     "scripts": ["background.js"]
-  }
+  },
+  "content_scripts" : [{
+    "js" : ["popup.js"],
+    "matches" : ["http://*/*", "https://*/*"]
+  }]
 }
