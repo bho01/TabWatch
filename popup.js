@@ -53,7 +53,9 @@ function loadData(msg, number, callback){
     var pieChart = new Chart(ctx, {
       type:'doughnut',
       data : data,
-      options:null
+      options:{
+        onClick:manageClick
+      }
     })
   });
 
@@ -69,5 +71,9 @@ function loadData(msg, number, callback){
   dialog.querySelector('.close').addEventListener('click', function() {
     dialog.close();
   });
- });
+});
+function manageClick(event, array){
+  console.log(event)
+  console.log(array)
+}
 
