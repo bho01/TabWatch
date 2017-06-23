@@ -11,6 +11,7 @@
   html, body{
 
     min-width: 600px;
+
   }
   body{
     text-align: center;
@@ -42,6 +43,13 @@
   }
   .nomarg{
     margin:0;
+    font-family: 'Roboto';
+  }
+  h2{
+    color: #2196F3;
+  }
+  #in{
+    color: #616161;
   }
   </style>
   <script src="jquery-3.2.1.min.js"></script>
@@ -63,11 +71,13 @@
   <div id = "total">
     <h2 class = "nomarg"> Total Time Spent : </h2>
     <h1 class = "nomarg" id = "time"></h1>
+    <h2 class="nomarg">Time Wasted :</h2>
+    <h1 class="nomarg" id = "wasted"></h1>
   </div>
   <!-- Icon button -->
   <!-- Colored icon button -->
   <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn" href = "settings.html">
-    <a href="settings.html"><i class="material-icons">settings</i></a>
+    <a href="settings.html"><i class="material-icons" id = "in">settings</i></a>
   </button>
 
 
