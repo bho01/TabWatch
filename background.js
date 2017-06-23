@@ -16,14 +16,26 @@ function activeTab(){
 activeTab();
 
 chrome.extension.onConnect.addListener(function(port) {
-      console.log("Connected .....");
-      port.onMessage.addListener(function(msg) {
-           console.log("message recieved : " + msg);
-           var b = calculatePercentages()
-           console.log(b)
-           port.postMessage(b);
-      });
- })
+	console.log("Connected ..... to " + port.name);
+	console.log(port);
+	if(port.name == "Data Communication"){
+		port.onMessage.addListener(function(msg) {
+			if(msg == "Requesting Data"){
+				console.log("message recieved : " + msg);
+				var b = calculatePercentages()
+				console.log(b)
+				port.postMessage(b);
+			}else{
+				console.log(msg);
+			}	
+		});
+	}else{
+		port.onMessage.addListener(function(msg) {
+				console.log("message recieved : " + msg);
+				console.log(global[msg]);
+		});
+	}
+})
 
 chrome.tabs.onCreated.addListener(function(tab){
 	console.log(tab);
