@@ -67,6 +67,15 @@ chrome.tabs.onActivated.addListener(function(object){
 		currentTab = tab;
 	});
 });
+
+chrome.idle.onStateChanged.addListener(function (state){
+	if(state == "idle" || state == "locked"){
+		var timeSpent = findOffset()
+		logTime(timeSpent, currentTab)
+	}else if(state == "active"){
+		lastDate = Date.now();
+	}
+});
 /*
 if it's a new tab, make a new key in the global object. 
 Otherwise, add the session to the existing key in the global object.
