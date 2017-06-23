@@ -1,0 +1,92 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Tab</title>
+    <style>
+    html, body{
+      width: 1000px;
+    }
+    body{
+      text-align: center;
+
+    }
+    #data{
+        font-family: 'Roboto';
+        font-size: 20px;
+        margin-top: 20px;
+        margin-left: 20px;
+        color: #757575;
+      }
+.demo-list-control {
+  width: 300px;
+}
+
+.demo-list-radio {
+  display: inline;
+}
+    </style>
+      <script src="jquery-3.2.1.min.js"></script>
+    <script src="Chart.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="material/material.min.css">
+<script src="material/material.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<script type="text/javascript" src = "chartstuff.js"></script>
+<link rel="stylesheet" type="text/css" href="dialog-polyfill.css">
+    <script src="popup.js"></script>
+
+  </head>
+  <body>
+    <div id = "data">Settings:</div>
+
+<ul class="demo-list-control mdl-list">
+  <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons  mdl-list__item-avatar">person</i>
+      Open priority tabs when chrome is launched
+    </span>
+    <span class="mdl-list__item-secondary-action">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
+      </label>
+    </span>
+  </li>
+  
+  <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons  mdl-list__item-avatar">person</i>
+      Other Setting
+    </span>
+    <span class="mdl-list__item-secondary-action">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
+      </label>
+    </span>
+  </li>
+
+  <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons  mdl-list__item-avatar">person</i>
+      Close unneccessary
+    </span>
+    <span class="mdl-list__item-secondary-action">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
+      </label>
+    </span>
+  </li>
+</ul>
+
+<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn">
+  <a href = "popup.html"><i class="material-icons">pie_chart</i></a>
+</button>
+
+
+
+  </body>
+</html>
