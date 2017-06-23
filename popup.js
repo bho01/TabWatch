@@ -2,43 +2,13 @@ var port = chrome.extension.connect({
       name: "Data Communication"
  });
 var dataSet = []
-dataSet.slice(0,7);
 var label = []
 var colors = []
-port.postMessage("Requesting Data");
+var total = 0.0
+var other = []
 port.postMessage("get total time");
-function loadData(msg, number, callback){
-  if(number < Object.keys(msg).length){
-    var key = Object.keys(msg)[number];
-    label.push(key)
-    dataSet.push(msg[key]["sum"]);
-    var img = new Image();
-    img.src = msg[key]["img"]
-    img.onload = function(){
-      number ++;
-      var colorThief = new ColorThief();
-      var color = colorThief.getColor(img);
-      console.log(color);
-      var colorString = "rgb("+color[0]+","+color[1]+","+color[2]+")"
-      colors.push(colorString)
-      console.log(number + " vs " + Object.keys(msg).length)
-      if(number == Object.keys(msg).length){
-        callback();
-      }else{
-        loadData(msg, number, callback);
-      }
-    }
-    img.onerror = function(){
-      number ++;
-      colors.push("#000");
-      if(number == Object.keys(msg).length){
-        callback();
-      }else{
-        loadData(msg, number, callback);
-      }
-    }
-  }
-}
+port.postMessage("Requesting Data");
+
 port.onMessage.addListener(function(msg) {
   console.log("message recieved" + msg);
   if(msg[0] == "initialize"){
@@ -60,13 +30,79 @@ port.onMessage.addListener(function(msg) {
       })
     });
   }else if(msg[0] == "total time data"){
-    $("#time").text(msg[1]);
-    incrementTime();
+    total = msg[1];
+    $("#time").text(convertToTime(msg[1]));
   }
 });
-function incrementTime(){
-  
+
+function loadData(msg, number, callback){
+  if(number < Object.keys(msg).length){
+    var key = Object.keys(msg)[number];
+    var n = msg[key]["sum"];
+    var percentOfTotal = n / total
+    if(percentOfTotal >= 0.1){
+      label.push(key)
+      dataSet.push(msg[key]["sum"]);
+      var img = new Image();
+      img.src = msg[key]["img"]
+      img.onload = function(){
+        number ++;
+        var colorThief = new ColorThief();
+        var color = colorThief.getColor(img);
+        console.log(color);
+        var colorString = "rgb("+color[0]+","+color[1]+","+color[2]+")"
+        colors.push(colorString)
+        console.log(number + " vs " + Object.keys(msg).length)
+        if(number == Object.keys(msg).length){
+          callback();
+        }else{
+          loadData(msg, number, callback);
+        }
+      }
+      img.onerror = function(){
+        number ++;
+        colors.push("#000");
+        if(number == Object.keys(msg).length){
+          callback();
+        }else{
+          loadData(msg, number, callback);
+        }
+      }
+    }else{
+      var index = label.indexOf("Other");
+      other.push(key);
+      number ++;
+      if(index == -1){
+        label.push("Other");
+        dataSet.push(msg[key]["sum"]);
+        colors.push("#FF0000")
+      }else{
+        var otherSum = dataSet[index]
+        otherSum += msg[key]["sum"];
+        dataSet[index] = otherSum;
+      }
+      if(number == Object.keys(msg).length){
+        callback();
+      }else{
+        loadData(msg, number, callback);
+      }
+    }
+    
+  }
 }
+function convertToTime(milli){
+  var milliseconds = parseInt((milli%1000)/100)
+            , seconds = parseInt((milli/1000)%60)
+            , minutes = parseInt((milli/(1000*60))%60)
+            , hours = parseInt((milli/(1000*60*60))%24);
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        return hours + "h " + minutes + "m " + seconds + "s : " + milliseconds;
+}
+
 function manageClick(event, array){
   console.log(event)
   console.log(array)
