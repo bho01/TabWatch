@@ -26,7 +26,6 @@ function loadData(msg, number, callback){
       }else{
         loadData(msg, number, callback);
       }
-<<<<<<< HEAD
     }
   }
 }
@@ -62,7 +61,6 @@ function loadData(msg, number, callback){
     dialog.close();
   });
  });
-=======
 
       var ctx = document.getElementById("chart")
       var pieChart = new Chart(ctx, {
@@ -81,4 +79,3 @@ function loadData(msg, number, callback){
        var dialog = document.querySelector('dialog');
     
  });
->>>>>>> 306b5456f7bff43774488ea7fc091cfac20faa8e
