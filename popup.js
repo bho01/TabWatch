@@ -58,6 +58,7 @@ function loadData(msg, number, callback){
       }
     })
   });
+});
 
 function manageClick(event, array){
   console.log(event)
