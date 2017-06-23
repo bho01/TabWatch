@@ -27,6 +27,15 @@ function loadData(msg, number, callback){
         loadData(msg, number, callback);
       }
     }
+    img.onerror = function(){
+      number ++;
+      colors.push("#000");
+      if(number == Object.keys(msg).length){
+        callback();
+      }else{
+        loadData(msg, number, callback);
+      }
+    }
   }
 }
  port.onMessage.addListener(function(msg) {
