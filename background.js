@@ -53,21 +53,26 @@ if it's a new tab, make a new key in the global object.
 Otherwise, add the session to the existing key in the global object.
 */
 function logTime(timeSpent,tab){
-	var s = new Session(timeSpent[0],timeSpent[1]);
-	if(global[tab.title] == null){
-		var obj = {};
-		var array = []
-		console.log(tab);
-		obj["image"] = tab.favIconUrl
-		array.push(s);
-		obj["array"] = array
-		global[tab.title] = obj
-	}else{
-		var array = global[tab.title]["array"];
-		array.push(s);
-		global[tab.title]["array"] = array
+	if(tab.favIconUrl != undefined){
+
+		var s = new Session(timeSpent[0], tab.title, timeSpent[1]);
+		var relevantPart = tab.favIconUrl.split('/')
+		var url = relevantPart[2]
+		if(global[url] == null){
+			var obj = {};
+			var array = []
+			console.log(tab);
+			obj["image"] = tab.favIconUrl
+			array.push(s);
+			obj["array"] = array
+			global[url] = obj
+		}else{
+			var array = global[url]["array"];
+			array.push(s);
+			global[url]["array"] = array
+		}
+		totalTime();
 	}
-	totalTime();
 }
 function convertToTime(milli){
 	var milliseconds = parseInt((milli%1000)/100)
@@ -133,7 +138,8 @@ This class is the basis of a session ->
 	session.date -> date the session began 
 */
 class Session {
-	constructor(time, date){
+	constructor(time, title, date){
+		this.title = title
 		this.time = time
 		this.date = date
 	}
