@@ -1,6 +1,11 @@
 var url = window.location.hash.substring(1);
 console.log(url);
 
+Number.prototype.padLeft = function(base,chr){
+   var  len = (String(base || 10).length - String(this).length)+1;
+   return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+
 var current = 0;
 var port = chrome.extension.connect({
       name: "Detailed Data"
@@ -8,13 +13,18 @@ var port = chrome.extension.connect({
 
 var dataArr = [];
 
-
-for (current = 0; current < 86400001) {
-	
-}
 port.postMessage(url)
 port.onMessage.addListener(function (msg){
 	console.log(msg);
+	for(se in msg["array"]){
+		var obj = msg["array"][se]
+		var d = new Date(obj["date"])//.format("yyyy-MM-dd HH:mm:ss")
+		//06/23/2017 18:13:22
+        var object = {};
+        object["date"] = d;
+        object["value"] = obj["time"]
+        dataArr.push(object);
+	}
 
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
@@ -23,7 +33,6 @@ var chart = AmCharts.makeChart("chartdiv", {
     "marginLeft": 40,
     "autoMarginOffset": 20,
     "mouseWheelZoomEnabled":true,
-    "dataDateFormat": "YYYY-MM-DD",
     "valueAxes": [{
         "id": "v1",
         "axisAlpha": 0,
@@ -85,106 +94,15 @@ var chart = AmCharts.makeChart("chartdiv", {
     "categoryField": "date",
     "categoryAxis": {
         "parseDates": true,
+        "minPeriod" : "mm",
         "dashLength": 1,
         "minorGridEnabled": true
     },
     "export": {
-        "enabled": true
+        "enabled": true,
+        "dateFormat": "YYYY-MM-DD HH:NN:SS"
     },
-    "dataProvider": [{
-        "date": "2012-07-27",
-        "value": 13
-    }, {
-        "date": "2012-07-28",
-        "value": 11
-    }, {
-        "date": "2012-07-29",
-        "value": 15
-    }, {
-        "date": "2012-07-30",
-        "value": 16
-    }, {
-        "date": "2012-07-31",
-        "value": 18
-    }, {
-        "date": "2012-08-01",
-        "value": 13
-    }, {
-        "date": "2012-08-02",
-        "value": 22
-    }, {
-        "date": "2012-08-03",
-        "value": 23
-    }, {
-        "date": "2012-08-04",
-        "value": 20
-    }, {
-        "date": "2012-08-05",
-        "value": 17
-    }, {
-        "date": "2012-08-06",
-        "value": 16
-    }, {
-        "date": "2012-08-07",
-        "value": 18
-    }, {
-        "date": "2012-08-08",
-        "value": 21
-    }, {
-        "date": "2012-08-09",
-        "value": 26
-    }, {
-        "date": "2012-08-10",
-        "value": 24
-    }, {
-        "date": "2012-08-11",
-        "value": 29
-    }, {
-        "date": "2012-08-12",
-        "value": 32
-    }, {
-        "date": "2012-08-13",
-        "value": 18
-    }, {
-        "date": "2012-08-14",
-        "value": 24
-    }, {
-        "date": "2012-08-15",
-        "value": 22
-    }, {
-        "date": "2012-08-16",
-        "value": 18
-    }, {
-        "date": "2012-08-17",
-        "value": 19
-    }, {
-        "date": "2012-08-18",
-        "value": 14
-    }, {
-        "date": "2012-08-19",
-        "value": 15
-    }, {
-        "date": "2012-08-20",
-        "value": 12
-    }, {
-        "date": "2012-08-21",
-        "value": 8
-    }, {
-        "date": "2012-08-22",
-        "value": 9
-    }, {
-        "date": "2012-08-23",
-        "value": 8
-    }, {
-        "date": "2012-08-24",
-        "value": 7
-    }, {
-        "date": "2012-08-25",
-        "value": 5
-    }, {
-        "date": "2012-08-26",
-        "value": 11
-}]
+    "dataProvider": dataArr
 });
 
 chart.addListener("rendered", zoomChart);
