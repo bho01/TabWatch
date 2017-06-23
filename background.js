@@ -34,8 +34,9 @@ chrome.extension.onConnect.addListener(function(port) {
 	}else{
 		//otherwise, send specific data
 		port.onMessage.addListener(function(msg) {
-				console.log("message recieved : " + msg);
-				console.log(global[msg]);
+			console.log("message recieved : " + msg);
+			var data = global[msg]
+			port.postMessage(data);
 		});
 	}
 })
