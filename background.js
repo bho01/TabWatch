@@ -32,6 +32,7 @@ chrome.extension.onConnect.addListener(function(port) {
 	}else{
 		port.onMessage.addListener(function(msg) {
 				console.log("message recieved : " + msg);
+				console.log(global[msg]);
 		});
 	}
 })
