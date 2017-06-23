@@ -9,10 +9,13 @@ var port = chrome.extension.connect({
 var dataArr = [];
 
 
+for (current = 0; current < 86400001) {
+	
+}
 port.postMessage(url)
 port.onMessage.addListener(function (msg){
 	console.log(msg);
-	
+
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
