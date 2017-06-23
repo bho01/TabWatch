@@ -26,8 +26,7 @@ chrome.extension.onConnect.addListener(function(port) {
 			}else if(msg == "get total time"){
 				console.log("getting total time");
 				var time = totalTime()
-				var stringTime = convertToTime(time);
-				port.postMessage(["total time data", stringTime]);
+				port.postMessage(["total time data", time]);
 			}else{
 				console.log(msg);
 			}	
@@ -67,6 +66,17 @@ chrome.tabs.onActivated.addListener(function(object){
 		currentTab = tab;
 	});
 });
+
+chrome.idle.onStateChanged.addListener(function (state){
+	if(state == "idle" || state == "locked"){
+		console.log("Detected idle, saving session...")
+		var timeSpent = findOffset()
+		logTime(timeSpent, currentTab)
+	}else if(state == "active"){
+		console.log("New session starting...")
+		lastDate = Date.now();
+	}
+});
 /*
 if it's a new tab, make a new key in the global object. 
 Otherwise, add the session to the existing key in the global object.
@@ -93,18 +103,7 @@ function logTime(timeSpent,tab){
 		console.log("undefined favicon");
 	}
 }
-function convertToTime(milli){
-	var milliseconds = parseInt((milli%1000)/100)
-            , seconds = parseInt((milli/1000)%60)
-            , minutes = parseInt((milli/(1000*60))%60)
-            , hours = parseInt((milli/(1000*60*60))%24);
 
-        hours = (hours < 10) ? "0" + hours : hours;
-        minutes = (minutes < 10) ? "0" + minutes : minutes;
-        seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-        return hours + "h " + minutes + "m " + seconds + "s : " + milliseconds;
-}
 
 //find Offset between session times using the beginning and ending times of a session.
 function findOffset(){
@@ -128,7 +127,6 @@ function totalTime(sinceDate){
     	}
 	}
 	var sum = timeArr.reduce((a,b) => a + b, 0);
-	console.log(convertToTime(sum));
 	return sum;
 }
 function calculatePercentages(sinceDate){
