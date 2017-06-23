@@ -31,7 +31,6 @@ chrome.tabs.onCreated.addListener(function(tab){
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
-		console.log(tab.title);
 		var timeSpent = findOffset();
 		logTime(timeSpent, currentTab);
 		currentTab = tab;
@@ -46,6 +45,8 @@ function logTime(timeSpent,tab){
 	if(global[tab.title] == null){
 		var obj = {};
 		var array = []
+		console.log(tab);
+		obj["image"] = tab.favIconUrl
 		array.push(s);
 		obj["array"] = array
 		global[tab.title] = obj
@@ -104,7 +105,10 @@ function calculatePercentages(sinceDate){
 				//TODO : Check if ses[a].time fits the time constraint parameter
 				sum += ses[a].time;
 			}
-			relativeList[key] = sum
+			var obj = {};
+			obj["sum"] = sum
+			obj["img"] = global[key]["image"]
+			relativeList[key] = obj;
 		}
 	}
 	console.log(relativeList);
