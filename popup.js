@@ -75,6 +75,10 @@ function loadData(msg, number, callback){
 function manageClick(event, array){
   console.log(event)
   console.log(array)
-  location.href = "detailed.html";
+  var element = array[0]["_model"]["label"]
+  console.log(element)
+
+  location.href = "detailed.html" + "#"+element;
+  console.log("script still running")
 }
 
