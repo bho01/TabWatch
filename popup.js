@@ -2,7 +2,6 @@ var port = chrome.extension.connect({
       name: "Data Communication"
  });
 var dataSet = []
-dataSet.slice(0,7);
 var label = []
 var colors = []
 port.postMessage("Requesting Data");

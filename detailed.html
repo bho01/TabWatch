@@ -15,7 +15,10 @@
     body{
       text-align: center;
     }
-
+#chartdiv {
+  width : 100%;
+  height  : 500px;
+}
     </style>
       <script src="jquery-3.2.1.min.js"></script>
     <script src="Chart.js"></script>
@@ -23,15 +26,18 @@
 <link rel="stylesheet" href="material/material.min.css">
 <script src="material/material.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="dialog-polyfill.css">
+
     <script src="detail.js"></script>
 
   </head>
   <body>
+  <script src="am/amcharts/amcharts.js"></script>
+<script src="am/amcharts/serial.js"></script>
+<script src="am/amcharts/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="am/amcharts/plugins/export/export.css" type="text/css" media="all">
+<script src="am/amcharts.themes/light.js"></script>
+<div id = "chartdiv"></div>
 
-  <div class="chart-container" style="position: relative; height:60vh; width:60vw; text-align: center !important; margin-left: 115px;">
-    <canvas id="line"></canvas>
-  </div>
 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn">
   <a href = "popup.html"><i class="material-icons">pie_chart</i></a>
 </button>
