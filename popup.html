@@ -8,8 +8,12 @@
   <head>
     <title>Tab</title>
     <style>
+    html, body{
+      width: 1000px;
+    }
     body{
       text-align: center;
+
     }
       #data{
         font-family: 'Roboto';
@@ -22,24 +26,37 @@
         text-align: center !important;
         margin-top: 50px;
       }
+      #chart{
+        margin-top: 50px;
+
+      }
     </style>
+      <script src="jquery-3.2.1.min.js"></script>
     <script src="Chart.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="material/material.min.css">
 <script src="material/material.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<<<<<<< HEAD
 
     <script src="color-thief.min.js"></script>
+=======
+<script type="text/javascript" src = "chartstuff.js"></script>
+<link rel="stylesheet" type="text/css" href="dialog-polyfill.css">
+>>>>>>> 306b5456f7bff43774488ea7fc091cfac20faa8e
     <script src="popup.js"></script>
 
   </head>
   <body>
-    <div id = "data">Data:</div>
+    <div id = "data">Your Tab Usage:</div>
     <canvas id="chart"></canvas>
-    <!-- Primary-colored flat button -->
-<button class="mdl-button mdl-js-button mdl-button--primary show-modal" id = "butn">
-  Settings
+<!-- Icon button -->
+<!-- Colored icon button -->
+<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn" href = "settings.html">
+  <a href="settings.html"><i class="material-icons">settings</i></a>
 </button>
+
+
 
   </body>
 </html>
