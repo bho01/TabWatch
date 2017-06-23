@@ -2,6 +2,7 @@ var port = chrome.extension.connect({
       name: "Data Communication"
  });
 var dataSet = []
+dataSet.slice(0,7);
 var label = []
 var colors = []
 port.postMessage("Requesting Data");
@@ -44,10 +45,10 @@ port.onMessage.addListener(function(msg) {
     loadData(msg[1], 0, function(){
       var data = {
         datasets:[{
-          data : dataSet,
+          data : dataSet.slice(0,7),
           backgroundColor:colors
         }],
-        labels:label
+        labels:label.slice(0,7)
       }
       var ctx = document.getElementById("chart")
       var pieChart = new Chart(ctx, {
