@@ -17,19 +17,16 @@ activeTab();
 
 chrome.extension.onConnect.addListener(function(port) {
 	console.log("Connected ..... to " + port.name);
-	console.log(port);
 	if(port.name == "Data Communication"){
 		port.onMessage.addListener(function(msg) {
 			if(msg == "Requesting Data"){
 				console.log("message recieved : " + msg);
 				var b = calculatePercentages()
-				console.log(b)
 				port.postMessage(["initialize",b]);
 			}else if(msg == "get total time"){
 				console.log("getting total time");
 				var time = totalTime()
 				var stringTime = convertToTime(time);
-				console.log(stringTime);
 				port.postMessage(["total time data", stringTime]);
 			}else{
 				console.log(msg);
@@ -43,8 +40,23 @@ chrome.extension.onConnect.addListener(function(port) {
 		});
 	}
 })
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
+	if(changeInfo["url"] != null){
+		console.log("URL CHANGED");
+		var timeSpent = findOffset();
+		logTime(timeSpent, currentTab);
+		console.log(currentTab)
+		currentTab = tab;
+		console.log(currentTab)
+	}else{
+		currentTab = tab;
+	}
+});
 
 chrome.tabs.onCreated.addListener(function(tab){
+	var timeSpent = findOffset();
+	logTime(timeSpent, currentTab);
+	currentTab = tab;
 	console.log(tab);
 });
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
@@ -60,6 +72,7 @@ if it's a new tab, make a new key in the global object.
 Otherwise, add the session to the existing key in the global object.
 */
 function logTime(timeSpent,tab){
+	console.log("executed");
 	if(tab.favIconUrl != undefined){
 		var s = new Session(timeSpent[0], tab.title, timeSpent[1]);
 		var relevantPart = tab.url.split('/')
@@ -67,7 +80,6 @@ function logTime(timeSpent,tab){
 		if(global[url] == null){
 			var obj = {};
 			var array = []
-			console.log(tab);
 			obj["image"] = tab.favIconUrl
 			array.push(s);
 			obj["array"] = array
@@ -77,6 +89,8 @@ function logTime(timeSpent,tab){
 			array.push(s);
 			global[url]["array"] = array
 		}
+	}else{
+		console.log("undefined favicon");
 	}
 }
 function convertToTime(milli){
@@ -133,7 +147,6 @@ function calculatePercentages(sinceDate){
 			relativeList[key] = obj;
 		}
 	}
-	console.log(relativeList);
 	return relativeList;
 
 }

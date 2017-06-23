@@ -60,9 +60,12 @@ port.onMessage.addListener(function(msg) {
     });
   }else if(msg[0] == "total time data"){
     $("#time").text(msg[1]);
+    incrementTime();
   }
 });
-
+function incrementTime(){
+  
+}
 function manageClick(event, array){
   console.log(event)
   console.log(array)
