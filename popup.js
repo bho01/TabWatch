@@ -54,7 +54,7 @@ function loadData(msg, number, callback){
       type:'doughnut',
       data : data,
       options:{
-        onClick:manageClick
+        onClick: manageClick
       }
     })
   });
@@ -75,5 +75,6 @@ function loadData(msg, number, callback){
 function manageClick(event, array){
   console.log(event)
   console.log(array)
+  location.href = "detailed.html";
 }
 
