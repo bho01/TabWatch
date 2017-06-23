@@ -24,12 +24,19 @@ chrome.extension.onConnect.addListener(function(port) {
 				console.log("message recieved : " + msg);
 				var b = calculatePercentages()
 				console.log(b)
-				port.postMessage(b);
+				port.postMessage(["initialize",b]);
+			}else if(msg == "get total time"){
+				console.log("getting total time");
+				var time = totalTime()
+				var stringTime = convertToTime(time);
+				console.log(stringTime);
+				port.postMessage(["total time data", stringTime]);
 			}else{
 				console.log(msg);
 			}	
 		});
 	}else{
+		//otherwise, send specific data
 		port.onMessage.addListener(function(msg) {
 				console.log("message recieved : " + msg);
 				console.log(global[msg]);
@@ -54,9 +61,8 @@ Otherwise, add the session to the existing key in the global object.
 */
 function logTime(timeSpent,tab){
 	if(tab.favIconUrl != undefined){
-
 		var s = new Session(timeSpent[0], tab.title, timeSpent[1]);
-		var relevantPart = tab.favIconUrl.split('/')
+		var relevantPart = tab.url.split('/')
 		var url = relevantPart[2]
 		if(global[url] == null){
 			var obj = {};
@@ -71,7 +77,6 @@ function logTime(timeSpent,tab){
 			array.push(s);
 			global[url]["array"] = array
 		}
-		totalTime();
 	}
 }
 function convertToTime(milli){
@@ -110,7 +115,7 @@ function totalTime(sinceDate){
 	}
 	var sum = timeArr.reduce((a,b) => a + b, 0);
 	console.log(convertToTime(sum));
-	calculatePercentages();
+	return sum;
 }
 function calculatePercentages(sinceDate){
 	var relativeList = {};

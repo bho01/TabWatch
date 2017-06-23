@@ -5,7 +5,7 @@ var dataSet = []
 var label = []
 var colors = []
 port.postMessage("Requesting Data");
- 
+port.postMessage("get total time");
 function loadData(msg, number, callback){
   if(number < Object.keys(msg).length){
     var key = Object.keys(msg)[number];
@@ -38,26 +38,29 @@ function loadData(msg, number, callback){
     }
   }
 }
- port.onMessage.addListener(function(msg) {
+port.onMessage.addListener(function(msg) {
   console.log("message recieved" + msg);
-  loadData(msg, 0, function(){
-    var data = {
-      datasets:[{
-        data : dataSet,
-        backgroundColor:colors
-      }],
-      labels:label
-    }
-
-    var ctx = document.getElementById("chart")
-    var pieChart = new Chart(ctx, {
-      type:'doughnut',
-      data : data,
-      options:{
-        onClick: manageClick
+  if(msg[0] == "initialize"){
+    loadData(msg[1], 0, function(){
+      var data = {
+        datasets:[{
+          data : dataSet,
+          backgroundColor:colors
+        }],
+        labels:label
       }
-    })
-  });
+      var ctx = document.getElementById("chart")
+      var pieChart = new Chart(ctx, {
+        type:'doughnut',
+        data : data,
+        options:{
+          onClick: manageClick
+        }
+      })
+    });
+  }else if(msg[0] == "total time data"){
+    $("#time").text(msg[1]);
+  }
 });
 
 function manageClick(event, array){

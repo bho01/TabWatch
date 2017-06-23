@@ -3,61 +3,76 @@
  This page is shown when the extension button is clicked, because the
  "browser_action" field in manifest.json contains the "default_popup" key with
  value "popup.html".
- -->
+-->
 <html>
-  <head>
-    <title>Tab</title>
-    <style>
-    html, body{
+<head>
+  <title>Tab</title>
+  <style>
+  html, body{
 
-      min-width: 600px;
-    }
-    body{
-      text-align: center;
+    min-width: 600px;
+  }
+  body{
+    text-align: center;
+  }
+  #data{
+    font-family: 'Roboto';
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #757575;
+  }
+  #butn{
+    text-align: center !important;
+    margin-top: 50px;
+    margin-bottom: -30px;
+  }
+  #chart{
+    margin-top: 50px;
+  }
+  #total{
+    text-align: left;
+    margin-left:30px;
+  }
+  #total h2{
+    font-size: 1em;
+  }
+  #total h1{
+    font-size: 2em;
+  }
+  .nomarg{
+    margin:0;
+  }
+  </style>
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="Chart.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="material/material.min.css">
+  <script src="material/material.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-    }
-      #data{
-        font-family: 'Roboto';
-        font-size: 20px;
-        margin-top: 20px;
-        margin-left: 20px;
-        color: #757575;
-      }
-      #butn{
-        text-align: center !important;
-        margin-top: 50px;
-        margin-bottom: -20px;
-      }
-      #chart{
-        margin-top: 50px;
+  <script src="color-thief.min.js"></script>
+  <script type="text/javascript" src = "chartstuff.js"></script>
+  <link rel="stylesheet" type="text/css" href="dialog-polyfill.css">
+  <script src="popup.js"></script>
 
-      }
-    </style>
-      <script src="jquery-3.2.1.min.js"></script>
-    <script src="Chart.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="material/material.min.css">
-<script src="material/material.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
-    <script src="color-thief.min.js"></script>
-<script type="text/javascript" src = "chartstuff.js"></script>
-<link rel="stylesheet" type="text/css" href="dialog-polyfill.css">
-    <script src="popup.js"></script>
-
-  </head>
-  <body>
-    <div id = "data">Your Tab Usage:</div>
-    <div class="chart-container" style="position: relative; height:60vh; width:60vw; text-align: center !important; margin-left: 115px;">
+</head>
+<body>
+  <div id = "data">Your Tab Usage</div>
+  <div class="chart-container" style="position: relative; height:60vh; width:60vw; text-align: center !important; margin-left: 115px;">
     <canvas id="chart"></canvas>
-</div>
-<!-- Icon button -->
-<!-- Colored icon button -->
-<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn" href = "settings.html">
-  <a href="settings.html"><i class="material-icons">settings</i></a>
-</button>
+  </div>
+  <div id = "total">
+    <h2 class = "nomarg"> Total Time Spent : </h2>
+    <h1 class = "nomarg" id = "time"></h1>
+  </div>
+  <!-- Icon button -->
+  <!-- Colored icon button -->
+  <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id = "butn" href = "settings.html">
+    <a href="settings.html"><i class="material-icons">settings</i></a>
+  </button>
 
 
 
-  </body>
+</body>
 </html>
