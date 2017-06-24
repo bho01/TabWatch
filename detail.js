@@ -3,21 +3,20 @@ var blocklist = [];
 console.log(url);
 var moreurl = "*://"+url+"/*";
 console.log(moreurl);
-blocklist.push(moreurl);
+
 window.onload=function(){
     var btn = document.getElementById("butn");
     btn.addEventListener('click', saveUrls);
 }
 function saveUrls() {
-    if (blocklist == null){
-        console.log("problems");
-    }else{
-        console.log("stored");
+    console.log("press");
+blocklist.push(moreurl);
 chrome.storage.sync.set({'value': blocklist}, function() {
           // Notify that we saved.
           message('Settings saved');
+
         });
-    }
+    
 }
 
 
