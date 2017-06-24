@@ -3,6 +3,10 @@ const background = chrome.extension.getBackgroundPage();
 var global = {};
 //storage of Tab Title :  Array of Sessions
 
+var urlSave = document.getElementById('sample5');
+var btn = document.getElementById('sub');
+
+btn.addEventListener('click', save);
 //initialization
 var lastDate = Date.now();
 var currentTab = null;
@@ -78,6 +82,7 @@ chrome.idle.onStateChanged.addListener(function (state){
 		lastDate = Date.now();
 	}
 });
+
 /*
 if it's a new tab, make a new key in the global object. 
 Otherwise, add the session to the existing key in the global object.
@@ -104,8 +109,20 @@ function logTime(timeSpent,tab){
 		console.log("undefined favicon");
 	}
 }
+//saves into chrome stroage
+function save(){
+	var val = urlSave.value;
 
+	if(val == ""){
+		alert("Please put in urls");
 
+	}
+	chrome.storage.sync.set({
+		'value': val
+	}, function(){
+		alert("urls saved")
+	});
+}
 //find Offset between session times using the beginning and ending times of a session.
 function findOffset(){
 	var beginning = lastDate;

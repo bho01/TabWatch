@@ -31,8 +31,10 @@ port.onMessage.addListener(function(msg) {
     });
   }else if(msg[0] == "total time data"){
     total = msg[1];
+    var wasted = other.reduce((a, b) => a + b, 0);
     $("#time").text(convertToTime(msg[1]));
   }
+
 });
 
 function loadData(msg, number, callback){
