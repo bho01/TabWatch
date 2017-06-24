@@ -4,19 +4,17 @@ console.log(url);
 var moreurl = "*://"+url+"/*";
 console.log(moreurl);
 
-window.onload=function(){
-    var btn = document.getElementById("plop");
-    btn.onclick = function(){
-        console.log("press");
-        blocklist.push(moreurl);
-
-        chrome.storage.sync.set({'ur': blocklist}, function() {
-          console.log(blocklist);
-          message('Settings saved');
-
-        });
-    }
+function setButton(text){
+    $( document ).ready(function() {
+        $("#sub").text(text);
+        if(text == "BLACKLIST"){
+            $("#sub").click(saveUrls);
+        }else{
+            $("#sub").click(deleteUrls);
+        }
+    });
 }
+
 
 
 
@@ -34,8 +32,14 @@ var port = chrome.extension.connect({
 var dataArr = [];
 
 port.postMessage(url)
-port.onMessage.addListener(function (msg){
-	console.log(msg);
+port.onMessage.addListener(function (message){
+	console.log(message);
+    if(message[0]){
+        setButton("UNBLACKLIST");
+    }else{
+        setButton("BLACKLIST");
+    }
+    var msg = message[1];
     totalSessions = msg;
     $("#data").text("Detailed Tab Usage : " + msg["title"])
     var img = $('<img style = "padding-left:10px;">'); //Equivalent: $(document.createElement('img'))
@@ -136,11 +140,11 @@ zoomChart(chart);
 
 $("#avgSn").text(convertToTime(averageSessions()));
 $("#total").text(convertToTime(sumSessions()));
-$("#sub").click(saveUrls);
 });
 function saveUrls() {
     console.log('executed')
     chrome.storage.sync.get('blacklist', function(items){
+        console.log(items);
         blocklist = blocklist.concat(items["blacklist"]);
         console.log(blocklist)
     })
@@ -148,9 +152,30 @@ function saveUrls() {
     chrome.storage.sync.set({'blacklist': blocklist}, function() {
           // Notify that we saved.
           console.log('Settings saved');
+          console.log(blocklist)
           port.postMessage("blacklist");
 
     });
+}
+function deleteUrls(){
+    console.log('deleting');
+    chrome.storage.sync.get('blacklist', function(items){
+        console.log(items);
+        blocklist = blocklist.concat(items["blacklist"])
+        console.log(blocklist)
+    });
+    //remove element
+    var index = blocklist.indexOf("*://"+url+"/*")
+    if(index > -1){
+        blocklist.splice(index, 1)
+    }
+    if(blocklist.length == 0){
+        blocklist = ["blacklist"]
+    }
+    chrome.storage.sync.set({'blacklist' : blocklist}, function(){
+        console.log("successfully removed");
+        port.postMessage('blacklist');
+    })
 }
 function averageSessions(){
     var array = totalSessions["array"]

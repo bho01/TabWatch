@@ -61,7 +61,9 @@ chrome.extension.onConnect.addListener(function(port) {
 				resetBlacklist();
 			}else{
 				var data = global[msg]
-				port.postMessage(data);
+				var boo = checkIfBlacklist(msg);
+				console.log(boo);
+				port.postMessage([boo,data]);
 			}
 		});
 	}
@@ -94,6 +96,7 @@ function resetBlacklist(){
 	var array = []
 	chrome.storage.sync.get('blacklist', function(object){
 		var result = object["blacklist"]
+		console.log(result);
 		for (a in result){
 			var str = result[a];
 			var blockString = "*://"+str+"/*";
@@ -104,18 +107,22 @@ function resetBlacklist(){
 		reapplyBlocks();
 	});
 }
+function checkIfBlacklist(msg){
+	console.log(blacklist)
+	return (blacklist.indexOf("*://"+msg+"/*") != -1)
+}
 
 
-
-
-function reapplyBlocks(){
-	chrome.webRequest.onBeforeRequest.addListener(
-		function(details) { 
+function block(details) { 
 			console.log(details)
-			return {cancel: true}; },
+			return {cancel: true}; }
+function reapplyBlocks(){
+	chrome.webRequest.onBeforeRequest.removeListener(block);
+	chrome.webRequest.onBeforeRequest.addListener(block,
 			{urls: blacklist},
 			["blocking"]);
 }
+
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
