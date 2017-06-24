@@ -1,6 +1,9 @@
 var url = window.location.hash.substring(1);
 console.log(url);
 
+var btn = document.getElementById("butn");
+btn.addEventListener('click', saveUrls);
+
 Number.prototype.padLeft = function(base,chr){
    var  len = (String(base || 10).length - String(this).length)+1;
    return len > 0? new Array(len).join(chr || '0')+this : this;
@@ -10,7 +13,7 @@ var current = 0;
 var port = chrome.extension.connect({
       name: "Detailed Data"
  });
-
+var blocklist = [];
 var dataArr = [];
 
 port.postMessage(url)
@@ -25,7 +28,10 @@ port.onMessage.addListener(function (msg){
         object["value"] = obj["time"]
         dataArr.push(object);
 	}
-
+function saveUrls() {
+    console.log("*://www"+url+"/*");
+    blocklist.push("*://www"+url+"/*");
+ }
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
