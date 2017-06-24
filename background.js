@@ -78,13 +78,13 @@ chrome.tabs.onCreated.addListener(function(tab){
 
 
 var blacklist = [];
-chrome.storage.sync.get('value', function(result){
-	var channels = result.value;
-	console.log(channels);
+chrome.storage.sync.get('ur', function(result){
+	var channels = result.ur;
+	console.log(result);
 	blacklist.push(channels);
 });
-/*
-chrome.webRequest.onBeforeRequest.addListener(
+
+/*chrome.webRequest.onBeforeRequest.addListener(
         function(details) { 
         	return {cancel: true}; },
         {urls: blacklist},

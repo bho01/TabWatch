@@ -1,23 +1,23 @@
 var url = window.location.hash.substring(1);
-var blocklist = [];
+var blocklist = ["www.apple.com"];
 console.log(url);
 var moreurl = "*://"+url+"/*";
 console.log(moreurl);
 
 window.onload=function(){
-    var btn = document.getElementById("butn");
-    btn.addEventListener('click', saveUrls);
-}
-function saveUrls() {
-    console.log("press");
-blocklist.push(moreurl);
-chrome.storage.sync.set({'value': blocklist}, function() {
-          // Notify that we saved.
+    var btn = document.getElementById("plop");
+    btn.onclick = function(){
+        console.log("press");
+        blocklist.push(moreurl);
+
+        chrome.storage.sync.set({'ur': blocklist}, function() {
+          console.log(blocklist);
           message('Settings saved');
 
         });
-    
+    }
 }
+
 
 
 
