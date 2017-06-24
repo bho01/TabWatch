@@ -1,11 +1,28 @@
 var url = window.location.hash.substring(1);
-console.log(url);
-var moreurl = "*://www"+url+"/*";
 
+var blocklist = [];
+console.log(url);
+var moreurl = "*://"+url+"/*";
+console.log(moreurl);
+blocklist.push(moreurl);
 window.onload=function(){
     var btn = document.getElementById("butn");
-btn.addEventListener('click', saveUrls);
+    btn.addEventListener('click', saveUrls);
 
+
+function saveUrls() {
+    if (blocklist == null){
+        console.log("problems");
+    }else{
+        console.log("stored");
+chrome.storage.sync.set({'value': blocklist}, function() {
+          // Notify that we saved.
+
+          message('Settings saved');
+        });
+    }
+
+ }
 }
 
 
@@ -18,7 +35,7 @@ var current = 0;
 var port = chrome.extension.connect({
       name: "Detailed Data"
  });
-var blocklist = [];
+
 var dataArr = [];
 
 port.postMessage(url)
@@ -33,15 +50,7 @@ port.onMessage.addListener(function (msg){
         object["value"] = obj["time"]
         dataArr.push(object);
 	}
-function saveUrls() {
-    var moreurl = "*://www"+url+"/*";
-    console.log("*://www"+url+"/*");
-    blocklist.push(moreurl);
-    chrome.storage.sync.set({'value': moreurl}, function() {
-          // Notify that we saved.
-          message('Settings saved');
-        });
- }
+
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
