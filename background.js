@@ -8,6 +8,8 @@ var blacklist = [];
 
 //initialization
 var lastDate = Date.now();
+var lastActive = Date.now();
+var active = true;
 var currentTab = null;
 function activeTab(){
 	chrome.tabs.query({active:true}, function(tabs){
@@ -47,6 +49,7 @@ chrome.extension.onConnect.addListener(function(port) {
 		port.onMessage.addListener(function(msg) {
 			console.log("message recieved : " + msg);
 			if(msg == "Other"){
+				console.log("Other");
 				var object = {};
 				object["title"] = "Other"
 				var a = [];
@@ -56,7 +59,7 @@ chrome.extension.onConnect.addListener(function(port) {
 					console.log(global[url]);
 				}
 				object["array"] = a;
-				port.postMessage(object)
+				port.postMessage([false,object])
 			}else if (msg == "blacklist"){
 				resetBlacklist();
 			}else{
@@ -134,15 +137,30 @@ chrome.tabs.onActivated.addListener(function(object){
 
 chrome.idle.onStateChanged.addListener(function (state){
 	if(state == "idle" || state == "locked"){
+		active = false;
 		console.log("Detected idle, saving session...")
 		var timeSpent = findOffset()
 		logTime(timeSpent, currentTab)
 	}else if(state == "active"){
+		active = true
 		console.log("New session starting...")
 		lastDate = Date.now();
+		lastActive = Date.now();
 	}
 });
 
+setInterval(checkTime,5000);
+function checkTime(){
+	if(active == true){
+		var offset = Date.now() - lastActive;
+		console.log(offset);
+		if(offset > 20000){
+			console.log("take a break")
+			//we need to flag so we don't keep sending notifications
+			//send notification
+		}
+	}
+}
 /*
 if it's a new tab, make a new key in the global object. 
 Otherwise, add the session to the existing key in the global object.

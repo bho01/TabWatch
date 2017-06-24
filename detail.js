@@ -40,6 +40,7 @@ port.onMessage.addListener(function (message){
         setButton("BLACKLIST");
     }
     var msg = message[1];
+    console.log(msg);
     totalSessions = msg;
     $("#data").text("Detailed Tab Usage : " + msg["title"])
     var img = $('<img style = "padding-left:10px;">'); //Equivalent: $(document.createElement('img'))
