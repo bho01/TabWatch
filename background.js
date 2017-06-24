@@ -5,7 +5,7 @@ var global = {};
 
 
 
-var blocklist = []
+
 
 btn.addEventListener('click', save);
 //initialization
@@ -64,6 +64,12 @@ chrome.tabs.onCreated.addListener(function(tab){
 	currentTab = tab;
 	console.log(tab);
 });
+
+//Get the chrome strogae tabs
+
+
+var blocklist = [];
+//StorageArea.get(string or array of string or object keys, function callback)
 
 chrome.webRequest.onBeforeRequest.addListener(
         function(details) { return {cancel: true}; },
