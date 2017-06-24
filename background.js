@@ -102,6 +102,7 @@ function logTime(timeSpent,tab){
 		if(global[url] == null){
 			var obj = {};
 			var array = []
+			obj["title"] = url;
 			obj["image"] = tab.favIconUrl
 			array.push(s);
 			obj["array"] = array

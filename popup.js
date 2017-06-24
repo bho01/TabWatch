@@ -102,7 +102,20 @@ function convertToTime(milli){
         minutes = (minutes < 10) ? "0" + minutes : minutes;
         seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-        return hours + "h " + minutes + "m " + seconds + "s : " + milliseconds;
+        var str = "";
+        if(hours != "00"){
+            str += hours + "h "
+        } 
+        if(minutes != "00"){
+            str += minutes + "m "
+        }
+        if(seconds != "00"){
+            str += seconds + "s"
+        } 
+        if(milliseconds != "00"){
+            str += " : " + milliseconds
+        }
+        return str
 }
 
 function manageClick(event, array){
