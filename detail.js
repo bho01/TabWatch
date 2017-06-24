@@ -39,6 +39,9 @@ port.onMessage.addListener(function (msg){
 	console.log(msg);
     totalSessions = msg;
     $("#data").text("Detailed Tab Usage : " + msg["title"])
+    var img = $('<img style = "padding-left:10px;">'); //Equivalent: $(document.createElement('img'))
+    img.attr('src', msg["image"]);
+    img.appendTo('#data');
     for(se in msg["array"]){
       var obj = msg["array"][se]
 		var d = new Date(obj["date"])//.format("yyyy-MM-dd HH:mm:ss")
