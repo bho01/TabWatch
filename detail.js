@@ -1,8 +1,13 @@
 var url = window.location.hash.substring(1);
 console.log(url);
+var moreurl = "*://www"+url+"/*";
 
-var btn = document.getElementById("butn");
+window.onload=function(){
+    var btn = document.getElementById("butn");
 btn.addEventListener('click', saveUrls);
+
+}
+
 
 Number.prototype.padLeft = function(base,chr){
    var  len = (String(base || 10).length - String(this).length)+1;
@@ -29,9 +34,18 @@ port.onMessage.addListener(function (msg){
         dataArr.push(object);
 	}
 function saveUrls() {
+    var moreurl = "*://www"+url+"/*";
     console.log("*://www"+url+"/*");
+<<<<<<< HEAD
     blocklist.push("*://www"+url+"/*");
     
+=======
+    blocklist.push(moreurl);
+    chrome.storage.sync.set({'value': moreurl}, function() {
+          // Notify that we saved.
+          message('Settings saved');
+        });
+>>>>>>> 25580ebf29c5f96cda9ac39fceed57c19c1d5544
  }
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
