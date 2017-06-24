@@ -37,13 +37,20 @@ chrome.extension.onConnect.addListener(function(port) {
 		port.onMessage.addListener(function(msg) {
 			console.log("message recieved : " + msg);
 			if(msg == "Other"){
+				var object = {};
+				object["title"] = "Other"
+				var a = [];
 				for(obj in otherURL){
 					var url = otherURL[obj];
+					a = a.concat(global[url]["array"])
 					console.log(global[url]);
 				}
+				object["array"] = a;
+				port.postMessage(object)
+			}else{
+				var data = global[msg]
+				port.postMessage(data);
 			}
-			var data = global[msg]
-			port.postMessage(data);
 		});
 	}
 })
