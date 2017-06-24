@@ -1,6 +1,6 @@
 var url = window.location.hash.substring(1);
 console.log(url);
-
+var moreurl = "*://www"+url+"/*";
 
 window.onload=function(){
     var btn = document.getElementById("butn");
