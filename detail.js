@@ -147,15 +147,15 @@ function saveUrls() {
         console.log(items);
         blocklist = blocklist.concat(items["blacklist"]);
         console.log(blocklist)
-    })
-    blocklist.push(url);
-    chrome.storage.sync.set({'blacklist': blocklist}, function() {
+        blocklist.push(url);
+        chrome.storage.sync.set({'blacklist': blocklist}, function() {
           // Notify that we saved.
           console.log('Settings saved');
           console.log(blocklist)
           port.postMessage("blacklist");
 
-    });
+        });
+    })
 }
 function deleteUrls(){
     console.log('deleting');
@@ -163,19 +163,20 @@ function deleteUrls(){
         console.log(items);
         blocklist = blocklist.concat(items["blacklist"])
         console.log(blocklist)
+        var index = blocklist.indexOf(url)
+        if(index > -1){
+            blocklist.splice(index, 1)
+        }
+        if(blocklist.length == 0){
+            blocklist = ["blacklist"]
+        }
+        chrome.storage.sync.set({'blacklist' : blocklist}, function(){
+            console.log("successfully removed");
+            port.postMessage('blacklist');
+        })
     });
     //remove element
-    var index = blocklist.indexOf("*://"+url+"/*")
-    if(index > -1){
-        blocklist.splice(index, 1)
-    }
-    if(blocklist.length == 0){
-        blocklist = ["blacklist"]
-    }
-    chrome.storage.sync.set({'blacklist' : blocklist}, function(){
-        console.log("successfully removed");
-        port.postMessage('blacklist');
-    })
+    
 }
 function averageSessions(){
     var array = totalSessions["array"]
