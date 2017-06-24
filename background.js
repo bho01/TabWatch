@@ -3,8 +3,9 @@ const background = chrome.extension.getBackgroundPage();
 var global = {};
 //storage of Tab Title :  Array of Sessions
 
-var urlSave = document.getElementById('sample5');
-var btn = document.getElementById('sub');
+
+
+var blocklist = []
 
 btn.addEventListener('click', save);
 //initialization
@@ -63,6 +64,11 @@ chrome.tabs.onCreated.addListener(function(tab){
 	currentTab = tab;
 	console.log(tab);
 });
+
+chrome.webRequest.onBeforeRequest.addListener(
+        function(details) { return {cancel: true}; },
+        {urls: blocklist},
+        ["blocking"]);
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){
@@ -110,18 +116,13 @@ function logTime(timeSpent,tab){
 	}
 }
 //saves into chrome stroage
-function save(){
-	var val = urlSave.value;
 
-	if(val == ""){
-		alert("Please put in urls");
-
+function block(){
+	var relevantPart = tab.url.split('/')
+		var url = relevantPart[2]
+	if(url == ){
+		alert("You have blocked this site");
 	}
-	chrome.storage.sync.set({
-		'value': val
-	}, function(){
-		alert("urls saved")
-	});
 }
 //find Offset between session times using the beginning and ending times of a session.
 function findOffset(){
