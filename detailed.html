@@ -3,18 +3,18 @@
  This page is shown when the extension button is clicked, because the
  "browser_action" field in manifest.json contains the "default_popup" key with
  value "popup.html".
- -->
+-->
 <html>
-  <head>
-    <title>Tab</title>
-    <style>
-    html, body{
-      min-height: 800px;
-      min-width: 800px;
-    }
-    body{
-      text-align: center;
-    }
+<head>
+  <title>Tab</title>
+  <style>
+  html, body{
+    min-height: 600px;
+    min-width: 800px;
+  }
+  body{
+    text-align: center;
+  }
      #data{
     font-family: 'Roboto';
     font-size: 20px;
@@ -22,32 +22,53 @@
     margin-left: 20px;
     color: #757575;
   }
-#chartdiv {
-  width : 100%;
-  height  : 500px;
-}
-#in{
-  color: #616161;
-}
-    </style>
-      <script src="jquery-3.2.1.min.js"></script>
-    <script src="Chart.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="material/material.min.css">
-<script src="material/material.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  #chartdiv {
+    width : 100%;
+    height  : 300px;
+  }
+  #in{
+    color: #616161;
+  }
+  .nomarg{
+    margin:0;
+  }
+  .content{
+    text-align: left;
+    margin-left:50px;
+  }
+  .content h1{
+    font-size:2em;
+  }
+  .content h2{
+    font-size:1em;
+  }
+  </style>
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="Chart.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="material/material.min.css">
+  <script src="material/material.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-    <script src="detail.js"></script>
+  <script src="detail.js"></script>
 
-  </head>
-  <body>
+</head>
+<body>
   <div id = "data">Detailed Tab Usage</div>
   <script src="am/amcharts/amcharts.js"></script>
-<script src="am/amcharts/serial.js"></script>
-<script src="am/amcharts/plugins/export/export.min.js"></script>
-<link rel="stylesheet" href="am/amcharts/plugins/export/export.css" type="text/css" media="all">
-<script src="am/amcharts.themes/light.js"></script>
-<div id = "chartdiv"></div>
+  <script src="am/amcharts/serial.js"></script>
+  <script src="am/amcharts/plugins/export/export.min.js"></script>
+  <link rel="stylesheet" href="am/amcharts/plugins/export/export.css" type="text/css" media="all">
+  <script src="am/amcharts.themes/light.js"></script>
+
+  <div id = "chartdiv"></div>
+
+  <div class = "content">
+    <h2> Average Session Length : </h2>
+    <h1 id = "avgSn"></h1>
+    <h2> Total Time Spent : </h2>
+    <h1 id = "total" ></h1>
+  </div>
 
 <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id = "sub">
   Blacklist
