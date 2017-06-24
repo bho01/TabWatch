@@ -2,6 +2,8 @@ const background = chrome.extension.getBackgroundPage();
 
 var global = {};
 var otherURL = []
+var blacklist = [];
+
 //storage of Tab Title :  Array of Sessions
 
 //initialization
@@ -13,6 +15,13 @@ function activeTab(){
 		return tabs[0];
 	});	
 }
+chrome.storage.sync.set({'blacklist': ["blacklist"]}, function(){
+			console.log("blacklist set");
+});
+
+chrome.storage.sync.clear(function() {
+	console.log("Guc")
+})
 
 activeTab();
 
@@ -76,19 +85,27 @@ chrome.tabs.onCreated.addListener(function(tab){
 
 //Get the chrome strogae tabs
 
+function resetBlacklist(){
+	var array = []
+	chrome.storage.sync.get('blacklist', function(result){
+		for (a in result){
+			var str = result[a];
+			var blockString = "*://"+str+"/*";
+			array.push(blockString);
+		}
+		blacklist = array;
+		reapplyBlocks();
+	});
+}
 
-var blacklist = [];
-chrome.storage.sync.get('value', function(result){
-	var channels = result.value;
-	console.log(channels);
-	blacklist.push(channels);
-});
-/*
-chrome.webRequest.onBeforeRequest.addListener(
-        function(details) { 
-        	return {cancel: true}; },
-        {urls: blacklist},
-        ["blocking"]);*/
+function reapplyBlocks(){
+	chrome.webRequest.onBeforeRequest.addListener(
+		function(details) { 
+			console.log(details)
+			return {cancel: true}; },
+			{urls: ["invalid url"]},
+			["blocking"]);
+}
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){

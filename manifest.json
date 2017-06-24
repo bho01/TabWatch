@@ -12,6 +12,7 @@
   "permissions": [
           "tabs",
           "activeTab",
+          "<all_urls>",
           "background",
           "idle",
           "browsingData",
@@ -21,7 +22,8 @@
           "storage"
           ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"],
+    "persistent":true
   },
   "content_scripts" : [{
     "js" : ["popup.js"],
