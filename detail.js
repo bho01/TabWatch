@@ -31,6 +31,7 @@ port.onMessage.addListener(function (msg){
 function saveUrls() {
     console.log("*://www"+url+"/*");
     blocklist.push("*://www"+url+"/*");
+    
  }
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
