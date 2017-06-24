@@ -1,5 +1,5 @@
 var url = window.location.hash.substring(1);
-var blocklist = ["www.apple.com"];
+var blocklist = [];
 console.log(url);
 var moreurl = "*://"+url+"/*";
 console.log(moreurl);
@@ -136,17 +136,21 @@ zoomChart(chart);
 
 $("#avgSn").text(convertToTime(averageSessions()));
 $("#total").text(convertToTime(sumSessions()));
+$("#sub").click(saveUrls);
 });
 function saveUrls() {
-    var moreurl = "*://www"+url+"/*";
-    console.log("*://www"+url+"/*");
-    blocklist.push("*://www"+url+"/*");
-    
-    blocklist.push(moreurl);
-    chrome.storage.sync.set({'value': moreurl}, function() {
+    console.log('executed')
+    chrome.storage.sync.get('blacklist', function(items){
+        blocklist = blocklist.concat(items["blacklist"]);
+        console.log(blocklist)
+    })
+    blocklist.push(url);
+    chrome.storage.sync.set({'blacklist': blocklist}, function() {
           // Notify that we saved.
-          message('Settings saved');
-      });
+          console.log('Settings saved');
+          port.postMessage("blacklist");
+
+    });
 }
 function averageSessions(){
     var array = totalSessions["array"]

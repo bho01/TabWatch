@@ -15,10 +15,10 @@ port.onMessage.addListener(function(msg) {
     loadData(msg[1], 0, function(){
       var data = {
         datasets:[{
-          data : dataSet.slice(0,7),
+          data : dataSet,
           backgroundColor:colors
         }],
-        labels:label.slice(0,7)
+        labels:label
       }
       var ctx = document.getElementById("chart")
       var pieChart = new Chart(ctx, {
