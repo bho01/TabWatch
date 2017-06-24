@@ -74,13 +74,14 @@ var blacklist = [];
 chrome.storage.sync.get('value', function(result){
 	var channels = result.value;
 	console.log(channels);
-	blacklist.pushValues(channels);
+	blacklist.push(channels);
 });
-
+/*
 chrome.webRequest.onBeforeRequest.addListener(
-        function(details) { return {cancel: true}; },
+        function(details) { 
+        	return {cancel: true}; },
         {urls: blacklist},
-        ["blocking"]);
+        ["blocking"]);*/
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){
 	chrome.tabs.get(object.tabId, function(tab){

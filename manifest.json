@@ -15,6 +15,8 @@
           "background",
           "idle",
           "browsingData",
+          "webRequest",
+          "webRequestBlocking",
           "topSites",
           "storage"
           ],
