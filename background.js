@@ -4,10 +4,6 @@ var global = {};
 var otherURL = []
 //storage of Tab Title :  Array of Sessions
 
-
-
-
-
 //initialization
 var lastDate = Date.now();
 var currentTab = null;
@@ -74,12 +70,16 @@ chrome.tabs.onCreated.addListener(function(tab){
 //Get the chrome strogae tabs
 
 
-var blocklist = [];
-//StorageArea.get(string or array of string or object keys, function callback)
+var blacklist = [];
+chrome.storage.sync.get('value', function(result){
+	var channels = result.value;
+	console.log(channels);
+	blacklist.pushValues(channels);
+});
 
 chrome.webRequest.onBeforeRequest.addListener(
         function(details) { return {cancel: true}; },
-        {urls: blocklist},
+        {urls: blacklist},
         ["blocking"]);
 //when a Tab is selected, calculate and push time for previous tab (call logTime)
 chrome.tabs.onActivated.addListener(function(object){

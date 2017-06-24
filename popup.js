@@ -77,7 +77,7 @@ function loadData(msg, number, callback){
       if(index == -1){
         label.push("Other");
         dataSet.push(msg[key]["sum"]);
-        colors.push("#FF0000")
+        colors.push("#607D8B")
       }else{
         var otherSum = dataSet[index]
         otherSum += msg[key]["sum"];
