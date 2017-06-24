@@ -1,13 +1,13 @@
 const background = chrome.extension.getBackgroundPage();
 
 var global = {};
+var otherURL = []
 //storage of Tab Title :  Array of Sessions
 
 
 
 
 
-btn.addEventListener('click', save);
 //initialization
 var lastDate = Date.now();
 var currentTab = null;
@@ -32,14 +32,20 @@ chrome.extension.onConnect.addListener(function(port) {
 				console.log("getting total time");
 				var time = totalTime()
 				port.postMessage(["total time data", time]);
-			}else{
-				console.log(msg);
+			}else if(msg[0] == "other"){
+				otherURL = msg[1];
 			}	
 		});
 	}else{
 		//otherwise, send specific data
 		port.onMessage.addListener(function(msg) {
 			console.log("message recieved : " + msg);
+			if(msg == "Other"){
+				for(obj in otherURL){
+					var url = otherURL[obj];
+					console.log(global[url]);
+				}
+			}
 			var data = global[msg]
 			port.postMessage(data);
 		});
@@ -123,14 +129,14 @@ function logTime(timeSpent,tab){
 	}
 }
 //saves into chrome stroage
-
+/*
 function block(){
 	var relevantPart = tab.url.split('/')
 		var url = relevantPart[2]
 	if(url == ){
 		alert("You have blocked this site");
 	}
-}
+}*/
 //find Offset between session times using the beginning and ending times of a session.
 function findOffset(){
 	var beginning = lastDate;

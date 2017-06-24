@@ -123,7 +123,9 @@ function manageClick(event, array){
   console.log(array)
   var element = array[0]["_model"]["label"]
   console.log(element)
-
+  if(element == "Other"){
+    port.postMessage(["other",other]);
+  }
   location.href = "detailed.html" + "#"+element;
   console.log("script still running")
 }
