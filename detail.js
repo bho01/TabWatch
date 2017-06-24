@@ -13,7 +13,7 @@ var current = 0;
 var port = chrome.extension.connect({
       name: "Detailed Data"
  });
-
+var blocklist = [];
 var dataArr = [];
 
 port.postMessage(url)
