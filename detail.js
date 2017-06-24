@@ -36,16 +36,13 @@ port.onMessage.addListener(function (msg){
 function saveUrls() {
     var moreurl = "*://www"+url+"/*";
     console.log("*://www"+url+"/*");
-<<<<<<< HEAD
     blocklist.push("*://www"+url+"/*");
     
-=======
     blocklist.push(moreurl);
     chrome.storage.sync.set({'value': moreurl}, function() {
           // Notify that we saved.
           message('Settings saved');
         });
->>>>>>> 25580ebf29c5f96cda9ac39fceed57c19c1d5544
  }
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
