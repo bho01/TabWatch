@@ -50,9 +50,7 @@ port.onMessage.addListener(function (msg){
         object["value"] = obj["time"]
         dataArr.push(object);
 	}
-<<<<<<< HEAD
 
-=======
 function saveUrls() {
     var moreurl = "*://www"+url+"/*";
     console.log("*://www"+url+"/*");
@@ -64,7 +62,7 @@ function saveUrls() {
           message('Settings saved');
         });
  }
->>>>>>> d586e11b40001cd9b933292fd99816cafb181212
+
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
