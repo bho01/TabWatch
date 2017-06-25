@@ -47,7 +47,10 @@ var port = chrome.extension.connect({
 var dataArr = [];
 
 port.postMessage(url)
+port.postMessage(["warning",url])
+
 port.onMessage.addListener(function (message){
+    if(message[0] != "warning"){
 	console.log(message);
     if(message[0]){
         setButton("UNBLACKLIST WEBSITE");
@@ -156,6 +159,14 @@ zoomChart(chart);
 
 $("#avgSn").text(convertToTime(averageSessions()));
 $("#total").text(convertToTime(sumSessions()));
+}else{
+    console.log("WARNING :" + message[1]);
+    if(message[1]){
+            $( document ).ready(function() {
+                $("#warn").css('opacity','1');
+            });
+        } 
+}
 });
 function saveUrls() {
     console.log('executed')

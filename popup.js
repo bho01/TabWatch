@@ -28,10 +28,12 @@ port.onMessage.addListener(function(msg) {
         type:'doughnut',
         data : data,
         options:{
-          onClick: manageClick
-        },
-        labels:{
-          fontColor: "#fff"
+          onClick: manageClick,
+          legend : {
+            labels:{
+              fontColor:"white"
+            }
+          }
         }
       })
     });

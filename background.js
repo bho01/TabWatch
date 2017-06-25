@@ -3,6 +3,7 @@ const background = chrome.extension.getBackgroundPage();
 var global = {};
 var otherURL = []
 var blacklist = [];
+var notifications = true;
 var notifOptions = {
     type: "basic",
     title: "Take A Break!",
@@ -66,8 +67,16 @@ chrome.extension.onConnect.addListener(function(port) {
 				}
 				object["array"] = a;
 				port.postMessage([false,object])
+				port.postMessage(["warning", false]);
 			}else if (msg == "blacklist"){
 				resetBlacklist();
+			}else if(msg[0] == "warning"){
+
+				var b = calculatePercentages();
+				var total = totalTime();
+				var sum = b[msg[1]]["sum"];
+				var percent = sum / total;
+				port.postMessage(["warning",(percent >= 0.4)])
 			}else{
 				var data = global[msg]
 				var boo = checkIfBlacklist(msg);
@@ -179,6 +188,10 @@ function callbackClosed(){
 	console.log("closed");
 }
 function callback(){
+	notifications = false;
+	setTimeout(function(){
+		notifications = true
+	},8600000);
 	console.log("notifed");
 }
 /*
