@@ -1,12 +1,12 @@
 {
-	"name": "Chrome Tab Analytics",
+	"name": "TabWatch",
 	"description": "Track Tabs",
 	"version": "1.0",
 
 	"manifest_version": 2,
 
 	"browser_action": {
-    "default_icon": "download.jpeg",
+    "default_icon": "display.png",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -17,6 +17,7 @@
           "idle",
           "browsingData",
           "webRequest",
+          "notifications",
           "webRequestBlocking",
           "topSites",
           "storage"

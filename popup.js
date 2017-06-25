@@ -16,9 +16,12 @@ port.onMessage.addListener(function(msg) {
       var data = {
         datasets:[{
           data : dataSet,
-          backgroundColor:colors
+          backgroundColor:colors,
+          borderWidth:0
+
         }],
-        labels:label
+        labels:label,
+        
       }
       var ctx = document.getElementById("chart")
       var pieChart = new Chart(ctx, {
@@ -26,6 +29,9 @@ port.onMessage.addListener(function(msg) {
         data : data,
         options:{
           onClick: manageClick
+        },
+        labels:{
+          fontColor: "#fff"
         }
       })
     });

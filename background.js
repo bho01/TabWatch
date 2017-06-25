@@ -3,7 +3,15 @@ const background = chrome.extension.getBackgroundPage();
 var global = {};
 var otherURL = []
 var blacklist = [];
-
+var notifOptions = {
+    type: "basic",
+    title: "Take A Break!",
+    message: "You have been on chrome for too long, please take a break",
+    iconUrl: "display.png",
+    buttons: [
+    { title: 'Take a break' },
+  ]
+}
 //storage of Tab Title :  Array of Sessions
 
 //initialization
@@ -23,8 +31,6 @@ chrome.storage.sync.clear(function() {
 chrome.storage.sync.set({'blacklist': ["blacklist"]}, function(){
 			console.log("blacklist set");
 });
-
-
 
 activeTab();
 
@@ -83,6 +89,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 		currentTab = tab;
 	}
 });
+
+
 
 chrome.tabs.onCreated.addListener(function(tab){
 	var timeSpent = findOffset();
@@ -154,12 +162,24 @@ function checkTime(){
 	if(active == true){
 		var offset = Date.now() - lastActive;
 		console.log(offset);
-		if(offset > 20000){
+		if(offset > 8600000){
 			console.log("take a break")
 			//we need to flag so we don't keep sending notifications
 			//send notification
+			chrome.notifications.create(notifOptions, callback);
+
+			chrome.notifications.onButtonClicked.addListener(function() {
+    console.log("yasdf");
+    //    chrome.windows.remove(1, callbackClosed)
+});
 		}
 	}
+}
+function callbackClosed(){
+	console.log("closed");
+}
+function callback(){
+	console.log("notifed");
 }
 /*
 if it's a new tab, make a new key in the global object. 

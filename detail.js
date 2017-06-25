@@ -3,11 +3,16 @@ var blocklist = [];
 console.log(url);
 var moreurl = "*://"+url+"/*";
 console.log(moreurl);
-
+var notifOptions = {
+    type: "basic",
+    title: "Take A Break!",
+    message: "You have been on chrome for too long, please take a break",
+    icon: "download.jpeg"
+}
 function setButton(text){
     $( document ).ready(function() {
         $("#sub").text(text);
-        if(text == "BLACKLIST"){
+        if(text == "BLACKLIST WEBSITE"){
             $("#sub").click(saveUrls);
         }else{
             $("#sub").click(deleteUrls);
@@ -15,9 +20,19 @@ function setButton(text){
     });
 }
 
+window.onload=function(){
+    var btn = document.getElementById('butn');
+    btn.addEventListener('click', function(){
+        console.log("press");
+        blocklist.push(moreurl);
 
+        chrome.storage.sync.set({'ur': blocklist}, function() {
+          console.log(blocklist);
+          message('Settings saved');
 
-
+        });
+    });
+} 
 
 
 Number.prototype.padLeft = function(base,chr){
@@ -35,9 +50,9 @@ port.postMessage(url)
 port.onMessage.addListener(function (message){
 	console.log(message);
     if(message[0]){
-        setButton("UNBLACKLIST");
+        setButton("UNBLACKLIST WEBSITE");
     }else{
-        setButton("BLACKLIST");
+        setButton("BLACKLIST WEBSITE");
     }
     var msg = message[1];
     console.log(msg);
@@ -58,7 +73,7 @@ port.onMessage.addListener(function (message){
 
  var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
-    "theme": "light",
+    "theme": "dark",
     "marginRight": 40,
     "marginLeft": 40,
     "autoMarginOffset": 20,
