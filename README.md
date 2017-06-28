@@ -1,3 +1,7 @@
+<p align = "center">
+  <img src = "display.png"></img>
+</p>
+
 # TabWatch
 An observing and caring chrome extension for your internet
 <br>
