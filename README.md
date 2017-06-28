@@ -1,5 +1,6 @@
 # TabWatch
-An observing and caring chrome extension for your internet,
+An observing and caring chrome extension for your internet
+<br>
 Created by <a href = "http://ichauster.github.io/">Ivan Chau</a> and <a href = "http://brendonho.com">Brendon Ho</a>
 
 The chrome extension provides informative statistics on your chrome usage from the tabs you visit. In addition, it allows the user to block certain sites, and informs them when they should take a break from the internet.
