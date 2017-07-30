@@ -175,12 +175,13 @@ function checkTime(){
 			console.log("take a break")
 			//we need to flag so we don't keep sending notifications
 			//send notification
-			chrome.notifications.create(notifOptions, callback);
-
+			if(notifications){
+				chrome.notifications.create(notifOptions, callback);
+			}
 			chrome.notifications.onButtonClicked.addListener(function() {
-    console.log("yasdf");
-    //    chrome.windows.remove(1, callbackClosed)
-});
+			    console.log("yasdf");
+			    //chrome.windows.remove(1, callbackClosed)
+			});
 		}
 	}
 }
